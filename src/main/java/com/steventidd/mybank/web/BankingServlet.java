@@ -18,6 +18,8 @@ public class BankingServlet extends HttpServlet {
 
     private TransactionService transactionService;
     private ObjectMapper objectMapper;
+
+    @Override
     public void init() throws ServletException {
         AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(MyBankApplicationConfiguration.class);
 

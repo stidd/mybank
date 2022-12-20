@@ -3,6 +3,9 @@ package com.steventidd.mybank.model;
 
 import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.beans.factory.annotation.Value;
+
 import java.time.ZonedDateTime;
 
 
@@ -15,17 +18,27 @@ public class Transaction {
     private ZonedDateTime timestamp;
     private String reference;
 
+    private String slogan;
+
 
     public Transaction() {
     }
 
-    public Transaction(Integer amount, ZonedDateTime timestamp, String reference) {
+    public Transaction(Integer amount, ZonedDateTime timestamp, String reference, String slogan) {
         this.id = UUID.randomUUID().toString();
         this.amount = amount;
         this.reference = reference;
         this.timestamp = timestamp;
+        this.slogan = slogan;
 
+    }
 
+    public String getSlogan() {
+        return slogan;
+    }
+
+    public void setSlogan(String slogan) {
+        this.slogan = slogan;
     }
 
     public String getId() {
@@ -39,6 +52,7 @@ public class Transaction {
     public Integer getAmount() {
         return amount;
     }
+
 
     public void setAmount(Integer amount) {
         this.amount = amount;
