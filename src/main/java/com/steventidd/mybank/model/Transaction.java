@@ -1,12 +1,10 @@
 package com.steventidd.mybank.model;
 
-import java.time.format.DateTimeFormatter;
-import java.time.*;
-import java.util.Date;
-import java.util.UUID;
 
+import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.*;
+import java.time.ZonedDateTime;
+
 
 
 public class Transaction {

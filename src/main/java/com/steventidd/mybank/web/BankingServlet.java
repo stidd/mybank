@@ -1,10 +1,13 @@
 package com.steventidd.mybank.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.steventidd.mybank.context.Application;
+//import com.steventidd.mybank.context.Application;
+import com.steventidd.mybank.context.MyBankApplicationConfiguration;
 import com.steventidd.mybank.model.Transaction;
 import com.steventidd.mybank.service.TransactionService;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,6 +15,15 @@ import java.io.IOException;
 import java.util.List;
 
 public class BankingServlet extends HttpServlet {
+
+    private TransactionService transactionService;
+    private ObjectMapper objectMapper;
+    public void init() throws ServletException {
+        AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(MyBankApplicationConfiguration.class);
+
+        this.transactionService = ctx.getBean(TransactionService.class);
+        this.objectMapper = ctx.getBean(ObjectMapper.class);
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -26,8 +38,8 @@ public class BankingServlet extends HttpServlet {
                             "</html>");
         } else if (request.getRequestURI().equalsIgnoreCase("/transactions")) {
             response.setContentType("application/json; chartset=UTF-8");
-            List<Transaction> transactions = Application.transactionservice.findAll();
-            response.getWriter().print(Application.objectMapper.writeValueAsString(transactions));
+            List<Transaction> transactions = transactionService.findAll();
+            response.getWriter().print(objectMapper.writeValueAsString(transactions));
         }
 
     }
@@ -41,10 +53,10 @@ public class BankingServlet extends HttpServlet {
 
             String reference = request.getParameter("reference");
 
-            Transaction transaction = Application.transactionservice.create(amount, reference);
+            Transaction transaction = transactionService.create(amount, reference);
 
             response.setContentType("application/json; charset=UTF-8");
-            String json = Application.objectMapper.writeValueAsString(transaction);
+            String json = objectMapper.writeValueAsString(transaction);
             response.getWriter().print(json);
         } else {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
