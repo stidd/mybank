@@ -18,7 +18,10 @@ public class Transaction {
     private ZonedDateTime timestamp;
     private String reference;
 
+
     private String slogan;
+
+
 
 
     public Transaction() {
